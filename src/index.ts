@@ -124,7 +124,7 @@ export type UnfoldCreatorType<T extends ICreatorStructure> = {
         : never; // should never happen since CreatorTemplate does not allow it
 };
 
-export function objectValidator<
+export default function<
     T extends ICreatorStructure,
     O extends {
         [K in keyof T]: T[K] extends OptionalPrimitive
