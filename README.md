@@ -45,7 +45,7 @@ All you need to write a custom validator is to create a function that follows th
 ```typescript
 import { ValidatorReturn } from '../../itz';
 
-export ESpan = 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly';
+export type ESpan = 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly';
 function isESpan(x: any): x is ESpan {
     switch (x) {
         case 'hourly':
