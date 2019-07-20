@@ -3,6 +3,10 @@ import {
     itzAsBoolean,
     itzAsDate,
     itzAsNumber,
+    itzAsOptionalBoolean,
+    itzAsOptionalDate,
+    itzAsOptionalNumber,
+    itzAsOptionalString,
     itzAsString,
     itzBoolean,
     itzEither,
@@ -88,6 +92,12 @@ export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
     AsNumber: itzAsNumber,
     AsString: itzAsString,
     AsDate: itzAsDate,
+
+    // Optional Converters
+    AsOptionalBoolean: itzAsOptionalBoolean,
+    AsOptionalNumber: itzAsOptionalNumber,
+    AsOptionalString: itzAsOptionalString,
+    AsOptionalDate: itzAsOptionalDate,
 
     // Generic
     Optional: itzOptional,
