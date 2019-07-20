@@ -10,6 +10,12 @@ import {
     itzNumber,
     itzObject,
     itzOptional,
+    itzOptionalBoolean,
+    itzOptionalEither,
+    itzOptionalNull,
+    itzOptionalNumber,
+    itzOptionalObject,
+    itzOptionalString,
     itzString,
     itzUndefined,
 } from './validators';
@@ -69,6 +75,13 @@ export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
     Null: itzNull,
     Undefined: itzUndefined,
     Any: itzAny,
+
+    // Optional Primitives
+    OptionalBoolean: itzOptionalBoolean,
+    OptionalNumber: itzOptionalNumber,
+    OptionalString: itzOptionalString,
+    OptionalObject: itzOptionalObject,
+    OptionalNull: itzOptionalNull,
 
     // Converters
     AsBoolean: itzAsBoolean,
