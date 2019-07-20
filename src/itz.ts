@@ -49,13 +49,16 @@ export interface IItz {
     Optional: typeof itzOptional;
     Either: typeof itzEither;
 
+        // Constants
+        INVALID_VALUE: readonly [false];
+
     // Validator constructor
     A<T extends IStructure>(
         structure: T,
     ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined;
 }
 
-const itz: IItz = {
+export const INVALID_VALUE: readonly [false] = [false];
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
@@ -74,6 +77,9 @@ const itz: IItz = {
     // Generic
     Optional: itzOptional,
     Either: itzEither,
+
+    // Constants
+    INVALID_VALUE,
 
     A<T extends IStructure>(
         structure: T,
