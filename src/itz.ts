@@ -29,36 +29,38 @@ export interface IStructure {
 }
 export type ValidatorType<T extends Validator<any>> = T extends Validator<infer R> ? R : never;
 
-export interface IItz {
-    // Primitives
-    Boolean: typeof itzBoolean;
-    Number: typeof itzNumber;
-    String: typeof itzString;
-    Object: typeof itzObject;
-    Null: typeof itzNull;
-    Undefined: typeof itzUndefined;
-    Any: typeof itzAny;
+export interface IItz
+    extends Readonly<{
+        // Primitives
+        Boolean: typeof itzBoolean;
+        Number: typeof itzNumber;
+        String: typeof itzString;
+        Object: typeof itzObject;
+        Null: typeof itzNull;
+        Undefined: typeof itzUndefined;
+        Any: typeof itzAny;
 
-    // Converters
-    AsBoolean: typeof itzAsBoolean;
-    AsNumber: typeof itzAsNumber;
-    AsString: typeof itzAsString;
-    AsDate: typeof itzAsDate;
+        // Converters
+        AsBoolean: typeof itzAsBoolean;
+        AsNumber: typeof itzAsNumber;
+        AsString: typeof itzAsString;
+        AsDate: typeof itzAsDate;
 
-    // Generic
-    Optional: typeof itzOptional;
-    Either: typeof itzEither;
+        // Generic
+        Optional: typeof itzOptional;
+        Either: typeof itzEither;
 
         // Constants
         INVALID_VALUE: readonly [false];
 
-    // Validator constructor
-    A<T extends IStructure>(
-        structure: T,
-    ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined;
-}
+        // Validator constructor
+        A<T extends IStructure>(
+            structure: T,
+        ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined;
+    }> {}
 
 export const INVALID_VALUE: readonly [false] = [false];
+const itz: IItz = Object.freeze({
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
@@ -97,5 +99,5 @@ export const INVALID_VALUE: readonly [false] = [false];
             return r as any;
         };
     },
-};
+});
 export default itz;
