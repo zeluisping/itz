@@ -60,7 +60,7 @@ export interface IItz
     }> {}
 
 export const INVALID_VALUE: readonly [false] = [false];
-const itz: IItz = Object.freeze({
+export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
@@ -82,6 +82,7 @@ const itz: IItz = Object.freeze({
 
     // Constants
     INVALID_VALUE,
+    OPTIONAL_DEFAULT,
 
     A<T extends IStructure>(
         structure: T,
