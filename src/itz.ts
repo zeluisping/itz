@@ -102,6 +102,7 @@ export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
     // Generic
     Optional: itzOptional,
     Either: itzEither,
+    OptionalEither: itzOptionalEither,
 
     // Constants
     INVALID_VALUE,
