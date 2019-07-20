@@ -14,7 +14,15 @@ import {
     itzUndefined,
 } from './validators';
 
-export type ValidatorReturn<T extends any> = readonly [true, T] | readonly [false, undefined];
+/**
+ * ValidatorReturn generic type, it accepts a single type parameter
+ * which is the type of the value being returned in case of success.
+ *
+ * The type `readonly [false,undefined]` in the resulting union has
+ * been superseeded by just `[false]`, the resulting behaviour is
+ * the same and involves cleaner code with less clutter.
+ */
+export type ValidatorReturn<T extends any> = readonly [true, T] | readonly [false] | readonly [false, undefined];
 export type Validator<T extends any> = (key: string, value: any) => ValidatorReturn<T>;
 export interface IStructure {
     [K: string]: Validator<any>;
