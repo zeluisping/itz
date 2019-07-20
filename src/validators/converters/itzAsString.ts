@@ -1,4 +1,4 @@
-import { ValidatorReturn } from '../../itz';
+import { INVALID_VALUE, ValidatorReturn } from '../../itz';
 
 export function itzAsString(key: string, value: any): ValidatorReturn<string> {
     switch (typeof value) {
@@ -9,6 +9,6 @@ export function itzAsString(key: string, value: any): ValidatorReturn<string> {
         case 'boolean':
             return [true, '' + value];
         default:
-            return [false, undefined];
+            return INVALID_VALUE;
     }
 }
