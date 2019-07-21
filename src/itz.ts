@@ -26,7 +26,7 @@ import {
 
 /**
  * ValidatorReturn generic type, it accepts a single type parameter
- * which is the type of the value being returned in case of success.
+ * which is the type of the value being validated.
  *
  * The type `readonly [false,undefined]` in the resulting union has
  * been superseeded by just `[false]`, the resulting behaviour is
@@ -39,38 +39,9 @@ export interface IStructure {
 }
 export type ValidatorType<T extends Validator<any>> = T extends Validator<infer R> ? R : never;
 
-export interface IItz
-    extends Readonly<{
-        // Primitives
-        Boolean: typeof itzBoolean;
-        Number: typeof itzNumber;
-        String: typeof itzString;
-        Object: typeof itzObject;
-        Null: typeof itzNull;
-        Undefined: typeof itzUndefined;
-        Any: typeof itzAny;
-
-        // Converters
-        AsBoolean: typeof itzAsBoolean;
-        AsNumber: typeof itzAsNumber;
-        AsString: typeof itzAsString;
-        AsDate: typeof itzAsDate;
-
-        // Generic
-        Optional: typeof itzOptional;
-        Either: typeof itzEither;
-
-        // Constants
-        INVALID_VALUE: readonly [false];
-
-        // Validator constructor
-        A<T extends IStructure>(
-            structure: T,
-        ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined;
-    }> {}
-
 export const INVALID_VALUE: readonly [false] = [false];
 export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
+const itz = Object.freeze({
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
