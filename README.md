@@ -9,16 +9,17 @@ The package was written in a way that will allow the developer to write custom f
 A great example of usage would be for an Express powered API, where we would perform type and value checks, at the beggining of every endpoint, for any data that we want to use from request, be it `query`, `body`, or any other.
 
 Following is a simple example endpoint where we're validating `req.params`:
+
 ```typescript
 import { Router } from 'express';
-import itz from '.';
+import itz from 'itz';
 
 const router = Router();
 export default router;
 
 const GreetParams = itz.A({
     name: itz.String,
-    age: itz.Optional(itz.AsNumber),
+    age: itz.AsOptionalNumber, // same as: itz.Optional(itz.AsNumber), but one less call in the chain
 });
 
 router.use('/greet/:name/:age?', (req, res) => {
@@ -33,7 +34,7 @@ router.use('/greet/:name/:age?', (req, res) => {
     }
     if (params.age < 18) {
         res.status(403).send(`You're too young to be here ${params.name}!`);
-        return
+        return;
     }
     res.status(200).send(`Hello there ${params.name}! You're ${params.age}, not too shabby.`);
 });
@@ -41,9 +42,10 @@ router.use('/greet/:name/:age?', (req, res) => {
 
 # Writing Custom Validators
 
-All you need to write a custom validator is to create a function that follows the type `Validator`. Following is an example validator that validates a string literal type union.
+All you need to write a custom validator is to create a function that follows the type `Validator`. Following is an example validator that validates a string literal type union:
+
 ```typescript
-import { ValidatorReturn } from '../../itz';
+import { INVALID_VALUE, ValidatorReturn } from 'itz';
 
 export type ESpan = 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly';
 function isESpan(x: any): x is ESpan {
@@ -60,15 +62,16 @@ function isESpan(x: any): x is ESpan {
 }
 
 export function itzESpan(key: string, value: any): ValidatorReturn<ESpan> {
-    return isESpan(value) ? [true, value] : [false, undefined];
+    return isESpan(value) ? [true, value] : INVALID_VALUE;
 }
 ```
 
 The way a validator is written, allows us to do post processing on the value before returning it into the final object. With this you can also do more advanced processing of any kind; you can go as crazy as making an HTTP request to a remote server for retrieving a default value, anything goes. When doing such crazy things remember that if a field further ahead, from the one your validator is working currently on, fails to be validated, the whole partial object that had already been validated will be discarded as the main porpuse of this library is to validate the object against the whole wanted structure.
 
-The return type of a validator is a tuple with two elements: the first element is the `ok` flag (`true` means validated, `false` means failure), the second element must be `undefined` when `ok === false` and of type `T` (from the return type of your validator, `ValidatorReturn<T>`) when `ok === true`.
+The return type of a validator is a tuple with two elements: the first element is the `ok` flag (`true` means validated, `false` means failure), the second element must be `undefined` when `ok === false` and of type `T` (from the return type of your validator, `ValidatorReturn<T>`) when `ok === true`; alternative to doing `return [false,undefined]`, creating tuples all the time, you can just use the constant `return itz.INVALID_VALUE`. For optional validators instead of always having do do `return [true,undefined]`, also creating tuples all time, you can just do `return itz.OPTIONAL_DEFAULT`.
 
 The key being validated is provided for any case where it might be useful, only the keys from the given structure are validated, any extra keys the object being validated might have are just ignored.
 
 ## Documentation
+
 A complete documentation will be written, until then I've left here the basics on how to use this. Really there is not much more to it.
