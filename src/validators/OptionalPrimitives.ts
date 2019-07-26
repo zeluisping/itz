@@ -1,21 +1,36 @@
-import { OPTIONAL_DEFAULT, ValidatorReturn } from '../itz';
+import { OptionalValue, ValidatorReturn } from '../itz';
 
 export function itzOptionalBoolean(key: string, value: any): ValidatorReturn<boolean | undefined> {
-    return typeof value === 'boolean' ? [true, value] : OPTIONAL_DEFAULT;
+    if (typeof value === 'boolean') {
+        return [true, value];
+    }
+    return OptionalValue;
 }
 
 export function itzOptionalNumber(key: string, value: any): ValidatorReturn<number | undefined> {
-    return typeof value === 'number' ? [true, value] : OPTIONAL_DEFAULT;
+    if (typeof value === 'number') {
+        return [true, value];
+    }
+    return OptionalValue;
 }
 
-export function itzOptionalString(key: string, value: any): ValidatorReturn<string | undefined> {
-    return typeof value === 'string' ? [true, value] : OPTIONAL_DEFAULT;
+export function itzOptionalString(key: string, value: any, Default?: string): ValidatorReturn<string | undefined> {
+    if (typeof value === 'string') {
+        return [true, value];
+    }
+    return OptionalValue;
 }
 
-export function itzOptionalObject(key: string, value: any): ValidatorReturn<object | undefined> {
-    return typeof value === 'object' ? [true, value] : OPTIONAL_DEFAULT;
+export function itzOptionalObject(key: string, value: any, Default?: object): ValidatorReturn<object | undefined> {
+    if (typeof value === 'object') {
+        return [true, value];
+    }
+    return OptionalValue;
 }
 
 export function itzOptionalNull(key: string, value: any): ValidatorReturn<null | undefined> {
-    return value === null ? [true, null] : OPTIONAL_DEFAULT;
+    if (value === null) {
+        return [true, value];
+    }
+    return OptionalValue;
 }

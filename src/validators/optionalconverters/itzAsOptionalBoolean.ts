@@ -1,4 +1,4 @@
-import { OPTIONAL_DEFAULT, ValidatorReturn } from '../../itz';
+import { OptionalValue, ValidatorReturn } from '../../itz';
 
 export function itzAsOptionalBoolean(key: string, value: any): ValidatorReturn<boolean | undefined> {
     switch (typeof value) {
@@ -13,8 +13,8 @@ export function itzAsOptionalBoolean(key: string, value: any): ValidatorReturn<b
             if (value === 'false' || value === '0') {
                 return [true, false];
             }
-            return OPTIONAL_DEFAULT;
+        // falls through
         default:
-            return OPTIONAL_DEFAULT;
     }
+    return OptionalValue;
 }

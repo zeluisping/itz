@@ -1,9 +1,8 @@
-import { INVALID_VALUE, ValidatorReturn } from '../../itz';
+import { InvalidValue, ValidatorReturn } from '../../itz';
 
 export function itzAsBoolean(key: string, value: any): ValidatorReturn<boolean> {
     switch (typeof value) {
         case 'boolean':
-        // fallthrough
         case 'number':
             return [true, !!value];
         case 'string':
@@ -13,8 +12,8 @@ export function itzAsBoolean(key: string, value: any): ValidatorReturn<boolean> 
             if (value === 'false' || value === '0') {
                 return [true, false];
             }
-            return INVALID_VALUE;
+        // falls through
         default:
-            return INVALID_VALUE;
     }
+    return InvalidValue;
 }

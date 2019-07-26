@@ -9,13 +9,13 @@ import {
     itzAsOptionalString,
     itzAsString,
     itzBoolean,
+    itzDefault,
     itzEither,
     itzNull,
     itzNumber,
     itzObject,
     itzOptional,
     itzOptionalBoolean,
-    itzOptionalEither,
     itzOptionalNull,
     itzOptionalNumber,
     itzOptionalObject,
@@ -34,13 +34,19 @@ import {
  */
 export type ValidatorReturn<T extends any> = readonly [true, T] | readonly [false] | readonly [false, undefined];
 export type Validator<T extends any> = (key: string, value: any) => ValidatorReturn<T>;
+
+export type OptionalValidatorReturn<T> = readonly [true, T] | readonly [true, undefined];
+export type OptionalValidator<T> = (key: string, value: any) => OptionalValidatorReturn<T>;
+
 export interface IStructure {
     [K: string]: Validator<any>;
 }
 export type ValidatorType<T extends Validator<any>> = T extends Validator<infer R> ? R : never;
 
-export const INVALID_VALUE: readonly [false] = [false];
-export const OPTIONAL_DEFAULT: readonly [true, undefined] = [true, undefined];
+export const InvalidValue: readonly [false] = [false];
+export const OptionalValue: readonly [true, undefined] = [true, undefined];
+export const NullValue: readonly [true, null] = [true, null];
+
 const itz = Object.freeze({
     // Primitives
     Boolean: itzBoolean,
@@ -66,18 +72,14 @@ const itz = Object.freeze({
 
     // Optional Converters
     AsOptionalBoolean: itzAsOptionalBoolean,
+    AsOptionalDate: itzAsOptionalDate,
     AsOptionalNumber: itzAsOptionalNumber,
     AsOptionalString: itzAsOptionalString,
-    AsOptionalDate: itzAsOptionalDate,
 
     // Generic
     Optional: itzOptional,
     Either: itzEither,
-    OptionalEither: itzOptionalEither,
-
-    // Constants
-    INVALID_VALUE,
-    OPTIONAL_DEFAULT,
+    Default: itzDefault,
 
     A<T extends IStructure>(
         structure: T,

@@ -1,9 +1,14 @@
-import { INVALID_VALUE, ValidatorReturn } from '../../itz';
+import { InvalidValue, ValidatorReturn } from '../../itz';
 
 export function itzAsDate(key: string, value: any): ValidatorReturn<Date> {
-    if (typeof value !== 'number' && typeof value !== 'string') {
-        return INVALID_VALUE;
+    if (value instanceof Date) {
+        return [true, value];
     }
-    const date = new Date(value);
-    return isNaN(date.getTime()) ? INVALID_VALUE : [true, date];
+    if (typeof value === 'number' || typeof value === 'string') {
+        const date = new Date(value);
+        if (isNaN(date.getTime()) === false) {
+            return [true, date];
+        }
+    }
+    return InvalidValue;
 }

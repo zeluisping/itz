@@ -1,9 +1,14 @@
-import { OPTIONAL_DEFAULT, ValidatorReturn } from '../../itz';
+import { OptionalValue, ValidatorReturn } from '../../itz';
 
 export function itzAsOptionalDate(key: string, value: any): ValidatorReturn<Date | undefined> {
-    if (typeof value !== 'number' && typeof value !== 'string') {
-        return OPTIONAL_DEFAULT;
+    if (value instanceof Date) {
+        return [true, value];
     }
-    const date = new Date(value);
-    return isNaN(date.getTime()) ? OPTIONAL_DEFAULT : [true, date];
+    if (typeof value === 'number' || typeof value === 'string') {
+        const date = new Date(value);
+        if (isNaN(date.getTime()) === false) {
+            return [true, date];
+        }
+    }
+    return OptionalValue;
 }

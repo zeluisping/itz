@@ -1,4 +1,4 @@
-import { INVALID_VALUE, Validator } from '../../itz';
+import { InvalidValue, Validator } from '../../itz';
 
 export type ValidatorArray<T extends any> = Array<Validator<T>>;
 export type ValidatorArrayInfer<T extends ValidatorArray<any>> = T extends ValidatorArray<infer R> ? R : never;
@@ -11,6 +11,6 @@ export function itzEither<R extends ValidatorArray<any>>(...rest: R): Validator<
                 return r;
             }
         }
-        return INVALID_VALUE;
+        return InvalidValue;
     };
 }
