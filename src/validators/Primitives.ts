@@ -22,7 +22,7 @@ export function itzString(key: string, value: any): ValidatorReturn<string> {
 }
 
 export function itzObject(key: string, value: any): ValidatorReturn<object> {
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
         return [true, value];
     }
     return InvalidValue;
