@@ -22,7 +22,7 @@ export function itzOptionalString(key: string, value: any, Default?: string): Va
 }
 
 export function itzOptionalObject(key: string, value: any, Default?: object): ValidatorReturn<object | undefined> {
-    if (typeof value === 'object') {
+    if (typeof value === 'object' && value !== null) {
         return [true, value];
     }
     return OptionalValue;
