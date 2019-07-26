@@ -124,17 +124,21 @@ The key being validated is provided for any case where it might be useful, only 
 
 To aid in the creation of custom validators, a few constants where created for common validation results.
 
-## InvalidValue
+### InvalidValue
 
 Defined simply as `readonly [false]` this constant can be used by validators when validation fails, making it more expressive.
 
-## OptionalValue
+### OptionalValue
 
 Defined simply as `readonly [true, undefined]` this constant is meant to be used with optional validators, when validation fails and so the fallback optional value `undefined` is used.
 
 # Validators
 
+Validators are the foundation of this library, as they are the ones in charge of all the type checking, value conversions and what not.
+
 ## Primitives
+
+Primitives directly represent the primitives of the language. They're the most strict type of validators as the input value must have exactly the type we want, and nothing more.
 
 ### itz.Boolean
 
@@ -177,6 +181,8 @@ A field that passes this validation will have the type `undefined`.
 This validator always passes. The resulting field will be of type `any`.
 
 ## Converters
+
+Converters are a _special_ kind of validators. Well not really special as both have the same signatures and a similar porpuse. The difference being that these validators usually give back a completely new value derived from the original.
 
 ### itz.AsBoolean
 
@@ -237,6 +243,8 @@ Conversions are possible from the following types:
 A field that passes this validation will have the type `string`.
 
 ## Generics
+
+The porpuse of these generics is to give you a lot more flexibility in defining your validation structures. Since they're generic, they can be used together with other kinds of validators as to compose a new type validation. Essentially they are but different composition methods.
 
 ### itz.Default
 
