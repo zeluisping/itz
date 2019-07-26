@@ -2,6 +2,7 @@
     "extends": ["tslint:recommended", "tslint-config-prettier"],
     "rules": {
         "object-literal-sort-keys": false,
-        "no-switch-case-fall-through": true
+        "no-switch-case-fall-through": true,
+        "switch-default": true
     }
 }
