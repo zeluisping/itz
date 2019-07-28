@@ -10,27 +10,28 @@ If you really wanted you could even go as far as making HTTP requests (or anythi
 
 -   [Example Usage](#Example-Usage)
 -   [Custom Validators](#Custom-Validators)
--   [Documentation](#Documentation)
-    -   [Constants](#Constants)
-        -   [InvalidValue](#InvalidValue)
-        -   [OptionalValue](#OptionalValue)
-    -   [Validators](#Validators)
-        -   [Primitives](#Primitive-Validators)
-            -   [itz.Boolean](#itz.Boolean)
-            -   [itz.Number](#itz.Number)
-            -   [itz.String](#itz.String)
-            -   [itz.Object](#itz.Object)
-            -   [itz.Null](#itz.Null)
-            -   [itz.Undefined](#itz.Undefined)
-            -   [itz.Any](#itz.Any)
-        -   [Converters](#Converters)
-            -   [itz.AsBoolean](#itz.AsBoolean)
-            -   [itz.AsDate](#itz.AsNumber)
-            -   [itz.AsNumber](#itz.AsString)
-            -   [itz.AsString](#itz.AsObject)
-        -   [Generics](#Generics)
-            -   [itz.Default](#itz.Default)
--   [Documentation TODO](#Documentation-TODO)
+-   [itz.A](#itz.A)
+-   [Constants](#Constants)
+    -   [InvalidValue](#InvalidValue)
+    -   [OptionalValue](#OptionalValue)
+-   [Validators](#Validators)
+    -   [Primitives](#Primitive-Validators)
+        -   [itz.Boolean](#itz.Boolean)
+        -   [itz.Number](#itz.Number)
+        -   [itz.String](#itz.String)
+        -   [itz.Object](#itz.Object)
+        -   [itz.Null](#itz.Null)
+        -   [itz.Undefined](#itz.Undefined)
+        -   [itz.Any](#itz.Any)
+    -   [Converters](#Converters)
+        -   [itz.AsBoolean](#itz.AsBoolean)
+        -   [itz.AsDate](#itz.AsNumber)
+        -   [itz.AsNumber](#itz.AsString)
+        -   [itz.AsString](#itz.AsObject)
+    -   [Generics](#Generics)
+        -   [itz.Default](#itz.Default)
+        -   [itz.Either](#itz.Either)
+        -   [itz.Optional](#itz.Optional)
 
 # Example Usage
 
@@ -120,6 +121,22 @@ For simplicity, checkout [Constants](#Constants)
 
 The key being validated is provided for any case where it might be useful, only the keys from the given structure are validated, any extra keys the object being validated might have are just ignored.
 
+# itz.A
+
+This function is what constructors a validator from a structure you define. The constructed validator takes in any object whose type extends `{ [K: string]: any }` and either returns the validated object with the correct type derived from the structure, or `undefined` if validation failed.
+
+## Signature
+
+```typescript
+A<T extends IStructure>(
+        structure: T,
+    ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined
+```
+
+## Example
+
+An example usage of this function can be seen in [Usage Example]<(#Usage-Example).
+
 # Constants
 
 To aid in the creation of custom validators, a few constants where created for common validation results.
@@ -139,6 +156,8 @@ Validators are the foundation of this library, as they are the ones in charge of
 ## Primitives
 
 Primitives directly represent the primitives of the language. They're the most strict type of validators as the input value must have exactly the type we want, and nothing more.
+
+For each of these primitives there is an optional version with the naming convention `itz.OptionalTYPE`; each of them is equivalente to `itz.Optional(itz.TYPE)`.
 
 ### itz.Boolean
 
@@ -183,6 +202,8 @@ This validator always passes. The resulting field will be of type `any`.
 ## Converters
 
 Converters are a _special_ kind of validators. Well not really special as both have the same signatures and a similar porpuse. The difference being that these validators usually give back a completely new value derived from the original.
+
+For each of these converters there is an optional version with the naming convention `itz.AsOptionalTYPE`; each of them is equivalente to `itz.Optional(itz.AsTYPE)`.
 
 ### itz.AsBoolean
 
@@ -261,23 +282,31 @@ function <T, X extends Exclude<T, undefined>>(
 
 Any field with this generic is guaranteed to always return the value of type `T` (the type being validated).
 
----
+### itz.Either
 
-# Documentation TODO
+This generic allows you to validate against multiple types, imagine of it as something like a type `union`.
 
--   `itz.A`
--   **Validators**
-    -   **Generic**
-        -   `itz.Either`
-        -   `itz.Optional`
-    -   **Optional Converters**
-        -   `itz.AsOptionalBoolean`
-        -   `itz.AsOptionalDate`
-        -   `itz.AsOptionalNumber`
-        -   `itz.AsOptionalString`
-    -   **Optional Primitives**
-        -   `itz.OptionalBoolean`
-        -   `itz.OptionalNumber`
-        -   `itz.OptionalString`
-        -   `itz.OptionalObject`
-        -   `itz.OptionalNull`
+#### Signature
+
+```typescript
+// Some helping types
+type ValidatorArray<T extends any> = Array<Validator<T>>;
+type ValidatorArrayInfer<T extends ValidatorArray<any>> = T extends ValidatorArray<infer R> ? R : never;
+
+// The actual signature
+itzEither<R extends ValidatorArray<any>>(...rest: R): Validator<ValidatorArrayInfer<R>>
+```
+
+Any field with this genric will return any of the value types the given validators give back. Thus having a field with `itz.Either(itz.String, itz.Number)` will result in a value of type `string | number`.
+
+### itz.Optional
+
+This genric allows you to represent an optional field; it never fails as it always fallsback to a default value `undefined`.
+
+#### Signature
+
+```typescript
+itzOptional<T>(validator: Validator<T>): Validator<T | undefined>
+```
+
+The resulting value type for a field with a `itz.Optional` is always either the value type for the given validator or undefined.
