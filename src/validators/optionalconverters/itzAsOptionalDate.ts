@@ -1,6 +1,6 @@
-import { InvalidValue, ValidatorReturn } from '../../itz';
+import { OptionalValue, ValidatorReturn } from '../../itz';
 
-export function itzAsDate(key: string, value: any): ValidatorReturn<Date> {
+export function itzAsOptionalDate(key: string, value: any): ValidatorReturn<Date | undefined> {
     if (value instanceof Date) {
         return [true, value];
     }
@@ -10,5 +10,5 @@ export function itzAsDate(key: string, value: any): ValidatorReturn<Date> {
             return [true, date];
         }
     }
-    return InvalidValue;
+    return OptionalValue;
 }

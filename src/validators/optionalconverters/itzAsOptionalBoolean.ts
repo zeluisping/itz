@@ -1,8 +1,9 @@
-import { InvalidValue, ValidatorReturn } from '../../itz';
+import { OptionalValue, ValidatorReturn } from '../../itz';
 
-export function itzAsBoolean(key: string, value: any): ValidatorReturn<boolean> {
+export function itzAsOptionalBoolean(key: string, value: any): ValidatorReturn<boolean | undefined> {
     switch (typeof value) {
         case 'boolean':
+        // fallthrough
         case 'number':
             return [true, !!value];
         case 'string':
@@ -15,5 +16,5 @@ export function itzAsBoolean(key: string, value: any): ValidatorReturn<boolean> 
         // falls through
         default:
     }
-    return InvalidValue;
+    return OptionalValue;
 }

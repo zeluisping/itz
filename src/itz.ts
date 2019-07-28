@@ -3,51 +3,50 @@ import {
     itzAsBoolean,
     itzAsDate,
     itzAsNumber,
+    itzAsOptionalBoolean,
+    itzAsOptionalDate,
+    itzAsOptionalNumber,
+    itzAsOptionalString,
     itzAsString,
     itzBoolean,
+    itzDefault,
     itzEither,
     itzNull,
     itzNumber,
     itzObject,
     itzOptional,
+    itzOptionalBoolean,
+    itzOptionalNull,
+    itzOptionalNumber,
+    itzOptionalObject,
+    itzOptionalString,
     itzString,
     itzUndefined,
 } from './validators';
 
-export type ValidatorReturn<T extends any> = readonly [true, T] | readonly [false, undefined];
+/**
+ * ValidatorReturn generic type, it accepts a single type parameter
+ * which is the type of the value being validated.
+ *
+ * The type `readonly [false,undefined]` in the resulting union has
+ * been superseeded by just `[false]`, the resulting behaviour is
+ * the same and involves cleaner code with less clutter.
+ */
+export type ValidatorReturn<T extends any> = readonly [true, T] | readonly [false] | readonly [false, undefined];
 export type Validator<T extends any> = (key: string, value: any) => ValidatorReturn<T>;
+
+export type OptionalValidatorReturn<T> = readonly [true, T] | readonly [true, undefined];
+export type OptionalValidator<T> = (key: string, value: any) => OptionalValidatorReturn<T>;
+
 export interface IStructure {
     [K: string]: Validator<any>;
 }
 export type ValidatorType<T extends Validator<any>> = T extends Validator<infer R> ? R : never;
 
-export interface IItz {
-    // Primitives
-    Boolean: typeof itzBoolean;
-    Number: typeof itzNumber;
-    String: typeof itzString;
-    Object: typeof itzObject;
-    Null: typeof itzNull;
-    Undefined: typeof itzUndefined;
-    Any: typeof itzAny;
+export const InvalidValue: readonly [false] = [false];
+export const OptionalValue: readonly [true, undefined] = [true, undefined];
 
-    // Converters
-    AsBoolean: typeof itzAsBoolean;
-    AsNumber: typeof itzAsNumber;
-    AsString: typeof itzAsString;
-    AsDate: typeof itzAsDate;
-
-    // Generic
-    Optional: typeof itzOptional;
-    Either: typeof itzEither;
-
-    // Validator constructor
-    A<T extends IStructure>(
-        structure: T,
-    ): (what: { [K: string]: any }) => { [K in keyof T]: ValidatorType<T[K]> } | undefined;
-}
-
-const itz: IItz = {
+const itz = Object.freeze({
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
@@ -57,15 +56,29 @@ const itz: IItz = {
     Undefined: itzUndefined,
     Any: itzAny,
 
+    // Optional Primitives
+    OptionalBoolean: itzOptionalBoolean,
+    OptionalNumber: itzOptionalNumber,
+    OptionalString: itzOptionalString,
+    OptionalObject: itzOptionalObject,
+    OptionalNull: itzOptionalNull,
+
     // Converters
     AsBoolean: itzAsBoolean,
     AsNumber: itzAsNumber,
     AsString: itzAsString,
     AsDate: itzAsDate,
 
+    // Optional Converters
+    AsOptionalBoolean: itzAsOptionalBoolean,
+    AsOptionalDate: itzAsOptionalDate,
+    AsOptionalNumber: itzAsOptionalNumber,
+    AsOptionalString: itzAsOptionalString,
+
     // Generic
     Optional: itzOptional,
     Either: itzEither,
+    Default: itzDefault,
 
     A<T extends IStructure>(
         structure: T,
@@ -83,5 +96,5 @@ const itz: IItz = {
             return r as any;
         };
     },
-};
+});
 export default itz;

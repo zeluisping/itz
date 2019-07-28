@@ -1,29 +1,22 @@
 {
-  "compilerOptions": {
-    "lib": [
-      "es5",
-      "es6"
-    ],
-    "outDir": "lib",
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "importHelpers": true,
-    "sourceMap": true,
-    "noImplicitAny": true,
-    "declaration": true,
-    "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true,
-    "stripInternal": true,
-    "pretty": true,
-    "strictNullChecks": true,
-    "noUnusedLocals": true,
-    "downlevelIteration": true
-  },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+    "compilerOptions": {
+        "lib": ["es5", "es6"],
+        "outDir": "lib",
+        "target": "es5",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "declaration": true,
+        "noFallthroughCasesInSwitch": false,
+        "noImplicitReturns": true,
+        "stripInternal": true,
+        "pretty": true,
+        "strictNullChecks": true,
+        "noUnusedLocals": true,
+        "downlevelIteration": true
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
 }
