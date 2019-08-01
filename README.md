@@ -1,4 +1,15 @@
+<div align="center">
+<a href="https://github.com/zeluisping/itz">
+
 ![itz logo](logo.png)
+</a>
+
+<img alt="NPM" src="https://img.shields.io/npm/l/itz?style=flat-square">
+<img alt="npm" src="https://img.shields.io/npm/v/itz?style=flat-square">
+<img alt="npm type definitions" src="https://img.shields.io/npm/types/itz?style=flat-square">
+<img alt="npm dev dependency version" src="https://img.shields.io/npm/dependency-version/itz/dev/typescript?style=flat-square">
+</div>
+<br/>
 
 `itz` is a TypeScript library for performing runtime object type validation, while offering correct intellisense, it allows you to write custom type validations, giving you the hability to validate complex type structures.
 
