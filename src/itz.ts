@@ -46,7 +46,7 @@ export type ValidatorType<T extends Validator<any>> = T extends Validator<infer 
 export const InvalidValue: readonly [false] = [false];
 export const OptionalValue: readonly [true, undefined] = [true, undefined];
 
-const itz = Object.freeze({
+export const itz = Object.freeze({
     // Primitives
     Boolean: itzBoolean,
     Number: itzNumber,
@@ -97,4 +97,3 @@ const itz = Object.freeze({
         };
     },
 });
-export default itz;
