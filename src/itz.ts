@@ -1,5 +1,6 @@
 import {
     itzAny,
+    itzArray,
     itzAsBoolean,
     itzAsDate,
     itzAsNumber,
@@ -79,6 +80,7 @@ export const itz = Object.freeze({
     Optional: itzOptional,
     Either: itzEither,
     Default: itzDefault,
+    Array: itzArray,
 
     A<T extends IStructure>(
         structure: T,
